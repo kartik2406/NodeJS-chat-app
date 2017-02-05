@@ -14,15 +14,14 @@ app.use(express.static(publicPath));
 io.on('connection', (socket) => {
 	console.log('New User connected');
 
-		socket.emit('newMessage', {
-			from: 'Chat App team',
-			text: 'Welcome to our chat app',
-			createdAt: 123
-		});
-
 		socket.on('createMessage', (message) => {
-			message.createdAt = 225;
+			//message.createdAt = 225;
 			console.log('createMessage: ',message);
+			io.emit('newMessage', {
+				from: message.from,
+				text: message.text,
+				createdAt:	new Date().getTime()		
+			});
 		});
 
 		socket.on('disconnect', () => {
